@@ -11,7 +11,7 @@
 - bcrypt for cryptography
 - dotenv
 
-## How does this APIs works, you can test it using PostMan
+## How does this APIs works ?, you can test it using PostMan !!
 Registration:
 - When a user wants to create an account, they access the registration endpoint (/register) of the API.
 - They provide their desired username, email, and password in the request body.

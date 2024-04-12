@@ -1,0 +1,16 @@
+{
+  "name": "jwt-authentication-api-with-node.js-and-express",
+  "version": "1.0.0",
+  "description": "- User Authentication: Implement a robust authentication system using JWT to securely authenticate users.\r - Signup: Allow users to create new accounts by providing necessary information such as username and password.\r - Login: Enable users to securely log in to their accounts using their credentials.\r - Logout: Provide a secure mechanism for users to log out and invalidate their JWT tokens.\r - Middleware Integration: Utilize middleware functions to authenticate and authorize API endpoints.\r - Error Handling: Implement error handling mechanisms to provide informative responses for various scenarios.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "Pradip Singh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

@@ -11,26 +11,26 @@
 - bcrypt for cryptography
 - dotenv
 
-## How this APIs works, you can test it using PostMan
+## How does this APIs works, you can test it using PostMan
 Registration:
-    - When a user wants to create an account, they access the registration endpoint (/register) of the API.
-    - They provide their desired username, email, and password in the request body.
-    - The server validates the provided data to ensure it meets the required criteria (e.g., username must be unique, email must be valid).
-    - If the data passes validation, the server hashes the password securely using bcrypt and stores the user's information in the database.
-    - Finally, the server generates a JWT (JSON Web Token) containing the user's ID and signs it with a secret key. This token is then sent back to the client as part of the registration response.
+- When a user wants to create an account, they access the registration endpoint (/register) of the API.
+- They provide their desired username, email, and password in the request body.
+- The server validates the provided data to ensure it meets the required criteria (e.g., username must be unique, email must be valid).
+- If the data passes validation, the server hashes the password securely using bcrypt and stores the user's information in the database.
+- Finally, the server generates a JWT (JSON Web Token) containing the user's ID and signs it with a secret key. This token is then sent back to the client as part of the registration response.
 
 Login:
-    - To log in, the user accesses the login endpoint (/login) and provides their email and password in the request body.
-    - The server validates the credentials by checking if the provided email exists in the database and if the password matches the hashed password stored for that email.
-    - If the credentials are valid, the server generates a new JWT containing the user's ID and signs it with the secret key.
-    - This token is sent back to the client as part of the login response.
+- To log in, the user accesses the login endpoint (/login) and provides their email and password in the request body.
+- The server validates the credentials by checking if the provided email exists in the database and if the password matches the hashed password stored for that email.
+- If the credentials are valid, the server generates a new JWT containing the user's ID and signs it with the secret key.
+- This token is sent back to the client as part of the login response.
 
 showInfo:
-    - The showInfo endpoint (/showInfo) is a protected route that requires authentication. Only users with a valid JWT can access this endpoint.
-    - To access showInfo, the client includes the JWT in the request headers, typically using the Authorization header with the value Bearer token.
-    - The server verifies the authenticity of the token by decoding it and validating the signature against the secret key.
-    = If the token is valid, the server extracts the user's ID from the token and uses it to fetch the user's information from the database.
-    Finally, the server responds with the requested user information, allowing the client to display it to the user.
+- The showInfo endpoint (/showInfo) is a protected route that requires authentication. Only users with a valid JWT can access this endpoint.
+- To access showInfo, the client includes the JWT in the request headers, typically using the Authorization header with the value Bearer token.
+- The server verifies the authenticity of the token by decoding it and validating the signature against the secret key.
+- If the token is valid, the server extracts the user's ID from the token and uses it to fetch the user's information from the database.
+- Finally, the server responds with the requested user information, allowing the client to display it to the user.
 
 
 ## Key Features:

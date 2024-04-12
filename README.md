@@ -1,6 +1,6 @@
 # This repository provides a comprehensive solution for building secure authentication APIs using JSON Web Tokens (JWT) in Node.js with Express. The API allows users to sign up, log in, and log out securely.
 
-## Things I learned and Implimented:
+## Things I learned and Implimented in this project:
 - MVC framework
 - creating and using middlewares
 - Modular architecture

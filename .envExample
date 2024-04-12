@@ -1,0 +1,4 @@
+PORT=7777
+MONGO_DB_URL='mongodb://localhost:27017/Auth'
+secretKey= '12345'
+expiresIn= '1hr'

@@ -1,6 +1,6 @@
-#This repository provides a comprehensive solution for building secure authentication APIs using JSON Web Tokens (JWT) in Node.js with Express. The API allows users to sign up, log in, and log out securely.
+# This repository provides a comprehensive solution for building secure authentication APIs using JSON Web Tokens (JWT) in Node.js with Express. The API allows users to sign up, log in, and log out securely.
 
-##Key Features:
+## Key Features:
 - User Authentication: Implement a robust authentication system using JWT to securely authenticate users.
 - Signup: Allow users to create new accounts by providing necessary information such as username and password.
 - Login: Enable users to securely log in to their accounts using their credentials.

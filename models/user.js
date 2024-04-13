@@ -20,8 +20,19 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "password is required"],
-    //   minlength: [6, "Minimun length sholud be 6" ]
   },
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  otp: {
+    type: String,
+    maxlength: [6, "Maximun length sholud be 6" ]
+  },
+  tokenVersion: {
+    type: Number,
+    default: 0
+  }
 });
 
 module.exports = mongoose.model("User", userSchema);

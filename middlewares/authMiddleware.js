@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 const { secretKey } = require("../config/jwt");
+const User = require("../models/user");
 
-exports.verifyToken = (req, res, next) => {
+exports.verifyToken = async (req, res, next) => {
   const tokenString = req.headers.authorization;
   const token = tokenString.split(" ")[1];
   // console.log(token);
@@ -12,8 +13,20 @@ exports.verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, secretKey);
     // console.log(decoded);
-    req.userId = decoded.userId;
+    const { userId, tokenVersion } = decoded;
+    console.log(tokenVersion +" \n"+ userId);
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    if (user.tokenVersion !== tokenVersion) {
+      return res.status(401).json({ message: 'Token has expired. Please reauthenticate.' });
+    }
+    console.log("message: 'Token reauthenticated'");
+    req.userId = userId;
     next();
+
   } catch (error) {
     // console.log(error);
     res.status(401).json({ message: "Invalid token" });

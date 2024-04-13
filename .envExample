@@ -2,3 +2,7 @@ PORT=7777
 MONGO_DB_URL='mongodb://localhost:27017/Auth'
 secretKey= '12345'
 expiresIn= '1hr'
+OTPexpiresIn= '1min'
+
+EMAIL_USER="example@gmail.com"
+EMAIL_PASS="PR0@@3956"

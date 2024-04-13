@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendVerificationEmail = async (to, otp) => {
-    console.log(`mymail User: ${process.env.EMAIL_USER} \nmyMail Pass: ${process.env.EMAIL_PASS}\nOne more step ! \n verify acc using this OTP: ${otp} \n Sent to: ${to}`);
+    console.log(`mymail User: ${process.env.EMAIL_USER} \nmyMail Pass: ${process.env.EMAIL_PASS}\nSent to: ${to}\n*********One more step ! `);
   // const mailOptions = {
   //   from: process.env.EMAIL_USER,
   //   to,

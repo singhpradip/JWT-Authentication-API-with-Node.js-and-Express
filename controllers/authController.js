@@ -83,7 +83,7 @@ const verifyAccount = async (req, res) => {
         .json({ Message: "Your account is already varified" });
     }
     if (user.otp !== otp) {
-      return res.status(400).json({ message: "Invalid OTP" });
+      return res.status(400).json({ message: "Invalid OTP, not matched" });
     }
 
     user.isVerified = true;

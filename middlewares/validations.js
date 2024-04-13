@@ -1,6 +1,6 @@
 const joi = require("joi");
 
-const regValidate = (req, res, next) => {
+const validateUserData = (req, res, next) => {
   try {
     const registrationSchema = joi.object({
       username: joi.string().alphanum().min(3).max(30).required().messages({
@@ -21,21 +21,8 @@ const regValidate = (req, res, next) => {
         "any.required": "Password is required",
       }),
     });
-    const { error } = registrationSchema.validate(req.body);
-    if (error) {
-      return res
-        .status(400)
-        .json({ error: error.details.map((err) => err.message) });
-    }
-    next();
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
 
-const otpValidate = (req, res, next) => {
-  try {
-    const schema = joi.object({
+    const otpSchema = joi.object({
       email: joi.string().email().required().messages({
         "string.email": "Email must be a valid email address",
         "string.empty": "Email is required",
@@ -52,21 +39,30 @@ const otpValidate = (req, res, next) => {
         }),
     });
 
-    const { error } = schema.validate(req.body);
-    if (error) {
-      return res
-        .status(400)
-        .json({ error: error.details.map((err) => err.message) });
+    if(req.body.username && req.body.email && req.body.password){
+      const { error: userDataError } = registrationSchema.validate(req.body);
+      if (userDataError) {
+        return res
+          .status(400)
+          .json({ error: userDataError.details.map((err) => err.message) });
+      }
     }
-    // console.log("here also OK");
+
+    if (req.body.email && req.body.otp) {
+      const { error: otpError } = otpSchema.validate(req.body);
+      if (otpError) {
+        return res
+          .status(400)
+          .json({ error: otpError.details.map((err) => err.message) });
+      }
+    }
+
     next();
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
-  // console.log(req.body);
 };
 
 module.exports = {
-  regValidate,
-  otpValidate,
+  validateUserData,
 };

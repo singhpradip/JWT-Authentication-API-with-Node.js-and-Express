@@ -1,12 +1,16 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const { secretKey, expiresIn } = require("../config/jwt");
-const { generateOTP } = require('../utils/generateOTP');
-const { sendVerificationEmail } = require('../utils/email');
+const { secretKey, expiresIn, OTPexpiresIn } = require("../config/jwt");
+const { generateOTP } = require("../utils/generateOTP");
+const { sendVerificationEmail } = require("../utils/email");
 
 const generateToken = (user) => {
-  return jwt.sign({ userId: user._id, tokenVersion: user.tokenVersion }, secretKey, { expiresIn });
+  return jwt.sign(
+    { userId: user._id, tokenVersion: user.tokenVersion },
+    secretKey,
+    { expiresIn }
+  );
 };
 
 // const register = async (req, res) => {
@@ -36,32 +40,39 @@ const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Check if user with email already exists
     const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: 'User with this email already exists.' });
+    if (existingUser && existingUser.isVerified) {
+      return res.status(400).json({ message: 'User already registered' });
     }
+    // console.log (existingUser);
 
-    // Generate OTP
     const otp = generateOTP();
     // console.log (otp);
 
-    // Create new user
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
-      otp
-    });
-    await newUser.save();
+    const user = await User.findOneAndUpdate(
+      { email },
+      { username, password: hashedPassword, otp },
+      { new: true, upsert: true } 
+    );
+    // console.log (user);
+ 
 
     // Send verification email with OTP
     await sendVerificationEmail(email, otp);
 
-    res.status(201).json({ message: 'Registration successful. Please check your email for verification.' });
+    const tempToken = jwt.sign({ userId: email }, secretKey, {
+      expiresIn: OTPexpiresIn,
+    });
+    console.log({ OTP: otp, Token: tempToken });
+
+    res.status(201).json({
+      message: "Verify account using OTP sent to your email",
+      tempToken: tempToken,
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -100,35 +111,33 @@ const showInfo = async (req, res) => {
 //     res.json("this is showInfo")
 // };
 
-
 const changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
     const userId = req.userId;
 
-    // Find user by ID
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
-    // Check if current password matches
-    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    const isPasswordValid = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
     if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Current password is incorrect' });
+      return res.status(401).json({ message: "Current password is incorrect" });
     }
 
-    // Hash the new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Update user's password
     user.password = hashedPassword;
     user.tokenVersion += 1;
     await user.save();
 
-    res.status(200).json({ message: 'Password changed successfully' });
+    res.status(200).json({ message: "Password changed successfully" });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -136,5 +145,5 @@ module.exports = {
   register,
   login,
   showInfo,
-  changePassword
+  changePassword,
 };

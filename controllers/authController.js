@@ -4,6 +4,7 @@ const User = require("../models/user");
 const { secretKey, expiresIn, OTPexpiresIn } = require("../config/jwt");
 const { generateOTP } = require("../utils/generateOTP");
 const { sendVerificationEmail } = require("../utils/email");
+const { successResponse, errorResponse } = require("../utils/response");
 
 const generateToken = (user) => {
   return jwt.sign(
@@ -38,9 +39,13 @@ const register = async (req, res) => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser && existingUser.isVerified) {
-      return res.status(400).json({
-        message: "User already registered, Proceed to login or use new email",
-      });
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            "User already registered, Proceed to login or use new email"
+          )
+        );
     }
     // console.log (existingUser);
 
@@ -54,20 +59,26 @@ const register = async (req, res) => {
       { new: true, upsert: true }
     );
     // console.log (user);
+    if (!user) {
+      return res.status(500).json({ message: "Failed to register user" });
+    }
 
+    const verificationUrl = `${req.protocol}://${req.get("host")}${
+      req.originalUrl
+    }/verify-account?tempToken=${tempToken}`;
     console.log({
       Message: "OTP sent Successfuly!",
-      newTempToken: tempToken,
+      verificationUrl: verificationUrl,
       OTP: otp,
     });
-
-    res.status(201).json({
-      message: "Verify account using OTP sent to your email",
-      tempToken: tempToken,
-    });
+    res.status(201).json(
+      successResponse("Verify account using OTP sent to your email", {
+        verificationUrl,
+      })
+    );
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json(errorResponse("Internal server error"));
   }
 };
 const verifyAccount = async (req, res) => {
@@ -75,15 +86,19 @@ const verifyAccount = async (req, res) => {
     const { email, otp } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ Message: "user not found" });
+      return res.status(404).json(errorResponse("User not found"));
     }
     if (user.isVerified) {
       return res
-        .status(200)
-        .json({ Message: "Your account is already varified" });
+        .status(400)
+        .json(
+          successResponse(
+            "User already registered, Proceed to login or use new email"
+          )
+        );
     }
     if (user.otp !== otp) {
-      return res.status(400).json({ message: "Invalid OTP, not matched" });
+      return res.status(400).json(errorResponse("Invalid OTP, not matched"));
     }
 
     user.isVerified = true;
@@ -92,10 +107,10 @@ const verifyAccount = async (req, res) => {
 
     const token = generateToken(user);
     console.log("Logged In as_________________________" + user.username);
-    return res.status(200).json([{ Status: "logged in" }, { user, token }]);
+    return res.status(200).json(successResponse("User logged in successfully", { user, token }));
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message });
+    res.status(400).json(errorResponse(error.message));
   }
 };
 const resendOtp = async (req, res) => {
@@ -103,12 +118,10 @@ const resendOtp = async (req, res) => {
     const { email } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ Message: "user not found" });
+      return res.status(404).json(errorResponse("User not found"));
     }
     if (user.isVerified) {
-      return res
-        .status(200)
-        .json({ Message: "Your account is already varified" });
+      return res.status(400).json(successResponse("Your account is already verified"));
     }
 
     const { tempToken, otp } = await sendOtp(email);
@@ -124,10 +137,10 @@ const resendOtp = async (req, res) => {
 
     return res
       .status(200)
-      .json({ Message: "OTP Resent Successfuly!", newTempToken: tempToken });
+      .json(successResponse("OTP Resent Successfully", { newTempToken: tempToken }));
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message });
+    res.status(400).json(errorResponse(error.message));
   }
 };
 const login = async (req, res) => {
@@ -135,37 +148,34 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json(errorResponse("User not found"));
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res.status(401).json(errorResponse("Invalid password"));
     }
     if (!user.isVerified) {
       console.log(
-        "TODO: redirect user to the OTP Verification page with email payload"
+        "User is not verified\nTODO: redirect user to the OTP Verification page with email payload"
       );
       return res
         .status(403)
-        .json("Your account is not verified, Please veify first !");
-    }
+        .json(errorResponse("Your account is not verified, Please verify first !"));
+      }
     const token = generateToken(user);
     console.log("Logged In as_________________________" + user.username);
-    res.json([{ Status: "logged in" }, { user, token }]);
+    res.json(successResponse("User logged in successfully", { user, token }));
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json(errorResponse(error.message));
   }
 };
 const showInfo = async (req, res) => {
   try {
-    // Access userId from req object
     const userId = req.userId;
-    // Fetch user data using userId
     const user = await User.findById(userId);
-    // Respond with user profile data
-    res.json({ user });
+    res.json(successResponse("User data retrieved successfully", { user }));
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json(errorResponse(error.message));
   }
 };
 const changePassword = async (req, res) => {
@@ -175,7 +185,7 @@ const changePassword = async (req, res) => {
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json(errorResponse("User not found"));
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -183,7 +193,7 @@ const changePassword = async (req, res) => {
       user.password
     );
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Current password is incorrect" });
+      return res.status(401).json(errorResponse("Current password is incorrect"));
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -192,19 +202,19 @@ const changePassword = async (req, res) => {
     user.tokenVersion += 1;
     await user.save();
 
-    res.status(200).json({ message: "Password changed successfully" });
+    res.status(200).json(successResponse("Password changed successfully"));
   } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json(errorResponse("Internal server error"));
   }
 };
 const forgrtPassword = async (req, res) => {
   try {
     const { email } = req.body;
-    console.log(email);
+    // console.log(email);
     const user = await User.findOne({ email });
-    console.log(user);
+    // console.log(user);
     if (!user) {
-      return res.status(404).json({ Message: "user not found" });
+      return res.status(404).json(errorResponse("User not found"));
     }
 
     const { tempToken, otp } = await sendOtp(email);
@@ -212,45 +222,51 @@ const forgrtPassword = async (req, res) => {
     user.otp = otp;
     await user.save();
 
+    const verificationUrl = `${req.protocol}://${req.get("host")}${
+      req.originalUrl
+    }/verify?tempToken=${tempToken}`;
+
     console.log({
       Message: "OTP sent Successfuly!",
-      tempToken: tempToken,
+      verificationUrl: verificationUrl,
       OTP: otp,
     });
 
-    return res
-      .status(200)
-      .json({ Message: "OTP sent Successfuly!", tempToken: tempToken });
+    return res.status(200).json(successResponse("OTP sent Successfully!", { verificationUrl }));
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message });
+    res.status(400).json(errorResponse(error.message));
   }
 };
 const setNewPassword = async (req, res) => {
-  //Receive new password from body or anywhere, see it while implemnting frontend
-  // for now lets get new password through req.body
-  const { user, newPassword } = req.body;
+  try {
+    //Receive new password from body or anywhere, see it while implemnting frontend
+    // for now lets get new password through req.body
+    const { user, newPassword } = req.body;
 
-  // TODO: Impliment params instead of req.body whenevr needed**** IMP
-  // in verifyAccount, resendOtp
+    // TODO: Impliment params instead of req.body whenevr needed**** IMP
+    // in verifyAccount, resendOtp
 
-  if (!user.isVerified) {
-    console.log(
-      "TODO: redirect user to the OTP Verification page with email payload"
-    );
-    return res
-      .status(403)
-      .json("Your account is not verified, Please veify first !");
+    if (!user.isVerified) {
+      console.log(
+        "User is not verified\nTODO: redirect user to the OTP Verification page with email payload"
+      );
+      return res
+        .status(403)
+        .json(errorResponse("Your account is not verified, Please veify first !"));
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    user.tokenVersion += 1;
+    await user.save();
+
+    // console.log("This is SetPassword()\n", user);
+    // console.log("Extract:", user.password);
+    res.status(200).json(successResponse("Password changed successfully"));
+  } catch (error) {
+    res.status(500).json(errorResponse("Internal server error"));
   }
-
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
-  user.password = hashedPassword;
-  user.tokenVersion += 1;
-  await user.save();
-
-  // console.log("This is SetPassword()\n", user);
-  // console.log("Extract:", user.password);
-  res.status(200).json({ message: "Password changed successfully" });
 };
 module.exports = {
   register,

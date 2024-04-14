@@ -46,14 +46,16 @@ const verifyToken = async (req, res, next) => {
 // };
 
 const verifyTempToken = async (req, res, next) => {
-  const tokenString = req.headers.authorization;
+  // const tokenString = req.headers.authorization;
 
-  if (!tokenString) {
-    console.log("No token received");
-    return res.status(401).json({ message: "Authorization token is missing" });
-  }
+  // if (!tokenString) {
+  //   console.log("No token received");
+  //   return res.status(401).json({ message: "Authorization token is missing" });
+  // }
 
-  const token = tokenString.split(" ")[1];
+  // const token = tokenString.split(" ")[1];
+  // getting from url , like : /?tempToken=igsdhfgjhgv
+  const { tempToken: token } = req.query;
   // console.log(token);
   if (!token) {
     console.log("No token received");
@@ -78,34 +80,8 @@ const verifyTempToken = async (req, res, next) => {
   }
 };
 
-const verifyTempTokenFromParams = async (req, res, next) => {
-  const { token, otp } = req.params;
-
-  if (!token) {
-    console.log("No token received");
-    return res.status(401).json({ message: "Authorization token is missing" });
-  }
-  try {
-    const decoded = jwt.verify(token, secretKey);
-    // console.log(decoded);
-    const { email } = decoded;
-    // console.log("Email:" + email);
-    const user = await User.findOne({ email });
-    // console.log(user)
-    if (!user) {
-      return res.status(404).json({ message: "Not the correct Token !" });
-    }
-    req.body.email = email;
-    req.body.otp = otp;
-    // console.log("Token: PASS");
-    next();
-  } catch (error) {
-    console.log("Invalid token");
-    res.status(401).json({ message: "Session Expired, try again" });
-  }
-};
-
 const otpVerify= async (req, res, next)=>{
+  //use after verifyTempToken middle so that body get email
   try{
     const { email, otp } = req.body;
     // console.log("otpVerify data: "+ email, otp);
@@ -137,6 +113,5 @@ const otpVerify= async (req, res, next)=>{
 module.exports = {
   verifyToken,
   verifyTempToken,
-  verifyTempTokenFromParams,
   otpVerify,
 };

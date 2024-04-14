@@ -1,19 +1,20 @@
 const jwt = require("jsonwebtoken");
 const { secretKey } = require("../config/jwt");
 const User = require("../models/user");
+const {sendError} = require("../utils/response");
 
 const verifyToken = async (req, res, next) => {
   const tokenString = req.headers.authorization;
   if (!tokenString) {
     console.log("No token received");
-    return res.status(401).json({ message: "Authorization token is missing" });
+    return sendError(res, "Authorization token is missing", 401);
   }
 
   const token = tokenString.split(" ")[1];
   // console.log(token);
   if (!token) {
     console.log("No token received");
-    return res.status(401).json({ message: "Authorization token is missing" });
+    return sendError(res, "Authorization token is missing", 401);
   }
   try {
     const decoded = jwt.verify(token, secretKey);
@@ -23,19 +24,17 @@ const verifyToken = async (req, res, next) => {
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return sendError(res, "User not found", 404);
     }
     if (user.tokenVersion !== tokenVersion) {
-      return res
-        .status(401)
-        .json({ message: "Token has expired. Please reauthenticate." });
+      return sendError(res, "Token has expired. Please reauthenticate.", 401);
     }
     console.log("message: 'Token reauthenticated'");
     req.userId = userId;
     next();
   } catch (error) {
     // console.log(error);
-    res.status(401).json({ message: "Invalid token" });
+    return sendError(res, "Invalid token", 401);
   }
 };
 
@@ -59,7 +58,7 @@ const verifyTempToken = async (req, res, next) => {
   // console.log(token);
   if (!token) {
     console.log("No token received");
-    return res.status(401).json({ message: "Authorization token is missing" });
+    return sendError(res, "Authorization token is missing", 401);
   }
   try {
     const decoded = jwt.verify(token, secretKey);
@@ -69,46 +68,40 @@ const verifyTempToken = async (req, res, next) => {
     const user = await User.findOne({ email });
     // console.log(user)
     if (!user) {
-      return res.status(404).json({ message: "Not the correct Token !" });
+      return sendError(res, "Not the correct Token !", 404);
     }
     req.body.email = email;
     // console.log("Token: PASS");
     next();
   } catch (error) {
     console.log("Invalid token");
-    res.status(401).json({ message: "Session Expired, try again" });
+    return sendError(res, "Session Expired, try again", 401);
   }
 };
 
-const otpVerify= async (req, res, next)=>{
+const otpVerify = async (req, res, next) => {
   //use after verifyTempToken middle so that body get email
-  try{
+  try {
     const { email, otp } = req.body;
     // console.log("otpVerify data: "+ email, otp);
-  
+
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ Message: "user not found" });
+      return sendError(res, "User not found", 404);
     }
 
-    if (user.otp == otp) {
-      console.log("OTP matched");
-      req.body.user= user;
-      next();
-    }
-    else{
-      console.log("otp not matched")
-      return res.status(403).json({ Message: "Invlid OTP" });
+    if (user.otp !== otp) {
+      return sendError(res, "Invalid OTP", 403);
     }
 
-  }catch(error){
+    req.body.user = user;
+    next();
+  } catch (error) {
+    console.log("OTP iis not valid");
     console.log(error);
-    return res.status(500).json({Message: error});
-
+    return sendError(res, error.message, 500);
   }
-
-
-}
+};
 
 module.exports = {
   verifyToken,

@@ -18,11 +18,11 @@ const generateTempToken = (email) => {
     expiresIn: OTPexpiresIn,
   });
 };
-const sendOtp = async (username, email) => {
+const sendOtp = async (email, username = null) => {
   try {
     generateTempToken(email);
     const otp = generateOTP();
-    await sendVerificationEmail(username, email, otp);
+    await sendVerificationEmail(email, otp, username);
 
     const tempToken = generateTempToken(email);
     // console.log({ OTP: otp, Token: tempToken });
@@ -49,7 +49,7 @@ const register = async (req, res) => {
     }
     // console.log (existingUser);
 
-    const { tempToken, otp } = await sendOtp(username, email);
+    const { tempToken, otp } = await sendOtp(email, username);
     // console.log (otp);
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -235,10 +235,7 @@ const forgrtPassword = async (req, res) => {
     }/verify?tempToken=${tempToken}`;
 
     console.log({
-      Message: "OTP sent Successfuly!",
-      verificationUrl: verificationUrl,
-      OTP: otp,
-    });
+      Message: "OTP sent Successfuly!"});
 
     return res
       .status(200)

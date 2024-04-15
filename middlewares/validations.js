@@ -16,15 +16,23 @@ const validateUserData = (req, res, next) => {
         .required(),
     });
 
+    const setPasswordSchema = joi.object({
+      newPassword: joi.string().min(6).required(),
+      otp: joi
+        .string()
+        .pattern(/^\d{6}$/)
+        .required(),
+    });
+
     let schema;
     if (req.body.username && req.body.email && req.body.password) {
       schema = registrationSchema;
-
     } else if (req.body.email && req.body.otp) {
       schema = otpSchema;
-      
+    } else if (req.body.newPassword && req.body.otp) {
+      schema = setPasswordSchema;
     } else {
-      return res.status(400).json({ error: "Invalid request data" });
+      return res.status(400).json({ error: "Validation not defined" });
     }
 
     const { error } = schema.validate(req.body);

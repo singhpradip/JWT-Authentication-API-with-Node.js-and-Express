@@ -9,9 +9,10 @@
 - Mongoose ODM for MongoDB database
 - Joi library for data validation
 - bcrypt for cryptography
+- Gmail API and nodemailer to send emails
 - dotenv
 
-## How does this APIs works ?, you can test it using PostMan !!
+## How does this APIs works ?, you can test it using PostMan !! [//needed to update this]
 Registration:
 - When a user wants to create an account, they access the registration endpoint (/register) of the API.
 - They provide their desired username, email, and password in the request body.

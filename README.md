@@ -9,6 +9,7 @@
 - Mongoose ODM for MongoDB database
 - Joi library for data validation
 - bcrypt for cryptography
+- Gmail API and nodemailer to send emails
 - dotenv
 
 ## How does this APIs works ?, you can test it using PostMan !!

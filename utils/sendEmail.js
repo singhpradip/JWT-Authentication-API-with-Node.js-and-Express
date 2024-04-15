@@ -44,7 +44,7 @@ const sendVerificationEmail = async (userEmail, otp, username) => {
             <h1>OTP Verification</h1>
           </div>
           <div style="background-color: #f4f4f4; padding: 20px;">
-            <p>Dear ${username ? username : "User"},</p>
+            <p>Dear ${username || "User"},</p>
             <p>Please use the following OTP ${
               username ? "to verify your account" : "to Reset your password"
             }:</p>
@@ -60,8 +60,7 @@ const sendVerificationEmail = async (userEmail, otp, username) => {
       `,
     };
 
-    // Send mail
-    const result = await transport.sendMail(mailOptions);
+    await transport.sendMail(mailOptions);
     console.log("Email with OTP sent successfully:");
   } catch (error) {
     console.error("Error sending email with OTP:", error);

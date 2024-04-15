@@ -4,6 +4,7 @@ const router = express.Router();
 const authController = require("../controllers/authController");
 const tokenValidations = require("../middlewares/tokenValidations");
 const {validateUserData} = require("../middlewares/validations");
+// const {sendVerificationEmail} = require('../utils/email')
 
 router.post("/register", validateUserData, authController.register);
 router.post("/register/verify-account", tokenValidations.verifyTempToken, validateUserData, authController.verifyAccount);
@@ -13,6 +14,7 @@ router.get("/showInfo", tokenValidations.verifyToken, authController.showInfo);
 router.put("/change-password", tokenValidations.verifyToken, authController.changePassword);
 router.post("/forget-password", authController.forgrtPassword);
 router.post("/forget-password/verify", validateUserData, tokenValidations.verifyTempToken, tokenValidations.otpVerify, authController.setNewPassword); //validate newPassword if getting from body
+// router.post("/test", sendVerificationEmail);
 
 router.use((err, req, res, next) => {
   console.error(err.stack);

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const { secretKey, expiresIn, OTPexpiresIn } = require("../config/jwt");
 const { generateOTP } = require("../utils/generateOTP");
-const { sendVerificationEmail } = require("../utils/email");
+const { sendVerificationEmail } = require("../utils/sendEmail");
 const { successResponse, errorResponse } = require("../utils/response");
 
 const generateToken = (user) => {
@@ -18,11 +18,11 @@ const generateTempToken = (email) => {
     expiresIn: OTPexpiresIn,
   });
 };
-const sendOtp = async (email) => {
+const sendOtp = async (username, email) => {
   try {
     generateTempToken(email);
     const otp = generateOTP();
-    await sendVerificationEmail(email, otp);
+    await sendVerificationEmail(username, email, otp);
 
     const tempToken = generateTempToken(email);
     // console.log({ OTP: otp, Token: tempToken });
@@ -49,7 +49,7 @@ const register = async (req, res) => {
     }
     // console.log (existingUser);
 
-    const { tempToken, otp } = await sendOtp(email);
+    const { tempToken, otp } = await sendOtp(username, email);
     // console.log (otp);
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -68,8 +68,6 @@ const register = async (req, res) => {
     }/verify-account?tempToken=${tempToken}`;
     console.log({
       Message: "OTP sent Successfuly!",
-      verificationUrl: verificationUrl,
-      OTP: otp,
     });
     res.status(201).json(
       successResponse("Verify account using OTP sent to your email", {
@@ -107,7 +105,9 @@ const verifyAccount = async (req, res) => {
 
     const token = generateToken(user);
     console.log("Logged In as_________________________" + user.username);
-    return res.status(200).json(successResponse("User logged in successfully", { user, token }));
+    return res
+      .status(200)
+      .json(successResponse("User logged in successfully", { user, token }));
   } catch (error) {
     console.error(error);
     res.status(400).json(errorResponse(error.message));
@@ -121,7 +121,9 @@ const resendOtp = async (req, res) => {
       return res.status(404).json(errorResponse("User not found"));
     }
     if (user.isVerified) {
-      return res.status(400).json(successResponse("Your account is already verified"));
+      return res
+        .status(400)
+        .json(successResponse("Your account is already verified"));
     }
 
     const { tempToken, otp } = await sendOtp(email);
@@ -137,7 +139,9 @@ const resendOtp = async (req, res) => {
 
     return res
       .status(200)
-      .json(successResponse("OTP Resent Successfully", { newTempToken: tempToken }));
+      .json(
+        successResponse("OTP Resent Successfully", { newTempToken: tempToken })
+      );
   } catch (error) {
     console.error(error);
     res.status(400).json(errorResponse(error.message));
@@ -160,8 +164,10 @@ const login = async (req, res) => {
       );
       return res
         .status(403)
-        .json(errorResponse("Your account is not verified, Please verify first !"));
-      }
+        .json(
+          errorResponse("Your account is not verified, Please verify first !")
+        );
+    }
     const token = generateToken(user);
     console.log("Logged In as_________________________" + user.username);
     res.json(successResponse("User logged in successfully", { user, token }));
@@ -193,7 +199,9 @@ const changePassword = async (req, res) => {
       user.password
     );
     if (!isPasswordValid) {
-      return res.status(401).json(errorResponse("Current password is incorrect"));
+      return res
+        .status(401)
+        .json(errorResponse("Current password is incorrect"));
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -232,7 +240,9 @@ const forgrtPassword = async (req, res) => {
       OTP: otp,
     });
 
-    return res.status(200).json(successResponse("OTP sent Successfully!", { verificationUrl }));
+    return res
+      .status(200)
+      .json(successResponse("OTP sent Successfully!", { verificationUrl }));
   } catch (error) {
     console.error(error);
     res.status(400).json(errorResponse(error.message));
@@ -253,7 +263,9 @@ const setNewPassword = async (req, res) => {
       );
       return res
         .status(403)
-        .json(errorResponse("Your account is not verified, Please veify first !"));
+        .json(
+          errorResponse("Your account is not verified, Please veify first !")
+        );
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);

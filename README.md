@@ -67,6 +67,17 @@
         3. If the token is valid, the server extracts the user's ID from the token and uses it to fetch the user's information from the database.
         4. Finally, the server responds with the requested user information, allowing the client to display it to the user.
 
+## Change Password
+
+- **Endpoint**: `/change-password`
+- **Method**: PUT
+- **Description**: Allows users to change their passwords securely.
+    - Requires authentication token in the request headers for user authentication.
+        - The client includes the JWT in the request headers, typically using the Authorization header with the value Bearer token.
+        - The server verifies the authenticity of the token by decoding it and validating the signature against the secret key.
+        - If the token is valid, the server allows access to the endpoint.
+    - Requires the user's current password and the new password in the request body.
+
 
 # Key Features:
 

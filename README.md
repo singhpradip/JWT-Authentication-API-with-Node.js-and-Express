@@ -25,12 +25,14 @@ This project aims to offer a robust and reliable authentication solution, ensuri
 - ## Modular Architecture:
  Designed the project with a modular architecture, dividing functionality into separate files and folders for better maintainability and readability.
 
-- ##JWT for Authentication:
-- Utilized JSON Web Tokens (JWT) for secure authentication, enabling stateless authentication across HTTP requests.
+- ## JWT for Authentication:
+Utilized JSON Web Tokens (JWT) for secure authentication, enabling stateless authentication across HTTP requests.
 
-- **Separate File Routes**: Organized routes into separate files to keep the codebase clean and manageable, following the modular architecture.
+- ## Separate File Routes:
+Organized routes into separate files to keep the codebase clean and manageable, following the modular architecture.
 
-- **Mongoose ODM for MongoDB Database**: Integrated Mongoose, an Object Data Modeling (ODM) library for MongoDB, to interact with the database and define schemas.
+- ## Mongoose ODM for MongoDB Database:
+*Integrated Mongoose, an Object Data Modeling (ODM) library for MongoDB, to interact with the database and define schemas.*
 
 - **Joi Library for Data Validation**: Implemented data validation using Joi, a powerful schema description language and data validator for JavaScript.
 

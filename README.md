@@ -14,13 +14,16 @@
 
 # How does this APIs works ?, you can test it using PostMan !! 
 ## Registration
-#### Endpoint: /register
-#### Method: POST
-#### Description: Allows users to create a new account.
-  - The user provides their desired username, email, and password in the request body.
-  - The server validates the provided data to ensure it meets the required criteria.
-  - If the data passes validation, the server sends an OTP (One-Time Password) to the user's email for verification.
-  - The user's information is securely stored in the database after successful verification.
+
+- **Endpoint**: `/register`
+- **Method**: POST
+- **Description**: Allows users to create a new account.
+    1. The user provides their desired username, email, and password in the request body.
+    2. The server validates the provided data to ensure it meets the required criteria.
+    3. If the data passes validation, the server sends an OTP (One-Time Password) to the user's email for verification.
+    4. The server also sends a verification URL containing a temporary token (`tempToken`) as a response, which the user can use to verify their account.
+    5. After receiving the OTP, the user verifies their account by hitting the verification URL along with the OTP.
+  
 
 ## Verify Account
 

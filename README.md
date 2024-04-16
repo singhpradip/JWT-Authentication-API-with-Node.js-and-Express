@@ -13,7 +13,6 @@ I created this project from scratch to provide a comprehensive solution for buil
 This project aims to offer a robust and reliable authentication solution, ensuring the security of user data and authentication processes.
 
 
-
 # Things I Learned and Implemented in This Project:
 
 - ## MVC Framework:
@@ -23,25 +22,28 @@ This project aims to offer a robust and reliable authentication solution, ensuri
   Implemented custom middlewares to handle authentication, validation, and other tasks within the Express.js application.
 
 - ## Modular Architecture:
- Designed the project with a modular architecture, dividing functionality into separate files and folders for better maintainability and readability.
+  Designed the project with a modular architecture, dividing functionality into separate files and folders for better maintainability and readability.
 
 - ## JWT for Authentication:
-Utilized JSON Web Tokens (JWT) for secure authentication, enabling stateless authentication across HTTP requests.
+  Utilized JSON Web Tokens (JWT) for secure authentication, enabling stateless authentication across HTTP requests.
 
 - ## Separate File Routes:
-Organized routes into separate files to keep the codebase clean and manageable, following the modular architecture.
+  Organized routes into separate files to keep the codebase clean and manageable, following the modular architecture.
 
 - ## Mongoose ODM for MongoDB Database:
-*Integrated Mongoose, an Object Data Modeling (ODM) library for MongoDB, to interact with the database and define schemas.*
+  *Integrated Mongoose, an Object Data Modeling (ODM) library for MongoDB, to interact with the database and define schemas.*
 
-- **Joi Library for Data Validation**: Implemented data validation using Joi, a powerful schema description language and data validator for JavaScript.
+- ## Joi Library for Data Validation:
+  Implemented data validation using Joi, a powerful schema description language and data validator for JavaScript.
 
-- **bcrypt for Cryptography**: Used bcrypt, a library for hashing passwords and other sensitive information, to enhance security.
+- ## bcrypt for Cryptography:
+  Used bcrypt, a library for hashing passwords and other sensitive information, to enhance security.
 
-- **Gmail API and Nodemailer**: Integrated the Gmail API and nodemailer library to send emails for account verification, password reset, and other notification purposes.
+- ## Gmail API and Nodemailer:
+  Integrated the Gmail API and nodemailer library to send emails for account verification, password reset, and other notification purposes.
 
-- **dotenv**: Employed dotenv to load environment variables from a .env file, facilitating secure configuration management.
-
+- ## dotenv:
+  Employed dotenv to load environment variables from a .env file, facilitating secure configuration management.
 
 
 # How does this APIs works ?, you can test it using PostMan !! 
@@ -56,7 +58,6 @@ Organized routes into separate files to keep the codebase clean and manageable, 
     - The server also sends a verification URL containing a temporary token (`tempToken`) as a response, which the user can use to verify their account.
     - After receiving the OTP, the user verifies their account by hitting the verification URL along with the OTP.
   
-
 ## Verify Account
 
 - **Endpoint**: `/register/verify-account`
@@ -126,6 +127,7 @@ Organized routes into separate files to keep the codebase clean and manageable, 
     - During initiation the forget password process, the user have received an OTP via email and a temporary token (`tempToken`) as a response. Users now need to hit the `/forget-password/verify` endpoint with the `tempToken` in the URL and the OTP in the request body to verify their identity and proceed to set a new password.
     - If the user did not receive the OTP, they can request a new OTP by hitting the `/resendOtp` endpoint with the `tempToken` received in the initial forget password response.
 
+
 # Middleware
 
 ### Token Verification
@@ -146,14 +148,14 @@ Organized routes into separate files to keep the codebase clean and manageable, 
 - **Description**: Verifies the OTP sent along with the email.
     - Used after `verifyTempToken` middleware to ensure the validity of the OTP.
 
+
 # Key Features:
 - **User Authentication**: Implement a robust authentication system using JWT to securely authenticate users.
 - **Proper Response Handling**: Ensure proper formatting and informative responses for all API endpoints.
 - **Middleware Integration**: Utilize middleware functions to authenticate, validate, and authorize API endpoints, including token verification and OTP validation.
 - **Error Handling**: Implement error handling mechanisms to provide informative responses for various scenarios, ensuring graceful handling of errors throughout the application.
-  
-This project aims to provide a flexible and reliable authentication solution for building secure APIs with JWT authentication. Whether you're creating a web application, mobile app backend, or any other type of server-side application, this repository serves as a solid foundation for implementing user authentication securely.
 
+This project aims to provide a flexible and reliable authentication solution for building secure APIs with JWT authentication. Whether you're creating a web application, mobile app backend, or any other type of server-side application, this repository serves as a solid foundation for implementing user authentication securely.
 
 
 # Frontend of this project is being developed in 'frontend' branch of this repo. usinf React.

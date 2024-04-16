@@ -13,17 +13,30 @@ I created this project from scratch to provide a comprehensive solution for buil
 This project aims to offer a robust and reliable authentication solution, ensuring the security of user data and authentication processes.
 
 
-## Things I learned and Implimented in this project:
-- MVC framework
-- creating and using middlewares
-- Modular architecture
-- JWT for authentication
-- separate file routes
-- Mongoose ODM for MongoDB database
-- Joi library for data validation
-- bcrypt for cryptography
-- Gmail API and nodemailer to send emails
-- dotenv
+
+## Things I Learned and Implemented in This Project:
+
+- **MVC Framework**: Structured the project using the Model-View-Controller (MVC) design pattern, separating concerns for better organization and scalability.
+
+- **Creating and Using Middlewares**: Implemented custom middlewares to handle authentication, validation, and other tasks within the Express.js application.
+
+- **Modular Architecture**: Designed the project with a modular architecture, dividing functionality into separate files and folders for better maintainability and readability.
+
+- **JWT for Authentication**: Utilized JSON Web Tokens (JWT) for secure authentication, enabling stateless authentication across HTTP requests.
+
+- **Separate File Routes**: Organized routes into separate files to keep the codebase clean and manageable, following the modular architecture.
+
+- **Mongoose ODM for MongoDB Database**: Integrated Mongoose, an Object Data Modeling (ODM) library for MongoDB, to interact with the database and define schemas.
+
+- **Joi Library for Data Validation**: Implemented data validation using Joi, a powerful schema description language and data validator for JavaScript.
+
+- **bcrypt for Cryptography**: Used bcrypt, a library for hashing passwords and other sensitive information, to enhance security.
+
+- **Gmail API and Nodemailer**: Integrated the Gmail API and nodemailer library to send emails for account verification, password reset, and other notification purposes.
+
+- **dotenv**: Employed dotenv to load environment variables from a .env file, facilitating secure configuration management.
+
+
 
 # How does this APIs works ?, you can test it using PostMan !! 
 ## Registration

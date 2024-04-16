@@ -21,29 +21,29 @@ This project aims to offer a robust and reliable authentication solution, ensuri
 - ### Creating and Using Middlewares:
   *Implemented custom middlewares to handle authentication, validation, and other tasks within the Express.js application.*
 
-- ## Modular Architecture:
-  Designed the project with a modular architecture, dividing functionality into separate files and folders for better maintainability and readability.
+- ### Modular Architecture:
+  *Designed the project with a modular architecture, dividing functionality into separate files and folders for better maintainability and readability.*
 
-- ## JWT for Authentication:
-  Utilized JSON Web Tokens (JWT) for secure authentication, enabling stateless authentication across HTTP requests.
+- ### JWT for Authentication:
+  *Utilized JSON Web Tokens (JWT) for secure authentication, enabling stateless authentication across HTTP requests.*
 
-- ## Separate File Routes:
-  Organized routes into separate files to keep the codebase clean and manageable, following the modular architecture.
+- ### Separate File Routes:
+  *Organized routes into separate files to keep the codebase clean and manageable, following the modular architecture.*
 
-- ## Mongoose ODM for MongoDB Database:
-  Integrated Mongoose, an Object Data Modeling (ODM) library for MongoDB, to interact with the database and define schemas.
+- ### Mongoose ODM for MongoDB Database:
+  *Integrated Mongoose, an Object Data Modeling (ODM) library for MongoDB, to interact with the database and define schemas.*
 
-- ## Joi Library for Data Validation:
-  Implemented data validation using Joi, a powerful schema description language and data validator for JavaScript.
+- ### Joi Library for Data Validation:
+  *Implemented data validation using Joi, a powerful schema description language and data validator for JavaScript.*
 
-- ## bcrypt for Cryptography:
-  Used bcrypt, a library for hashing passwords and other sensitive information, to enhance security.
+- ### bcrypt for Cryptography:
+  *Used bcrypt, a library for hashing passwords and other sensitive information, to enhance security.*
 
-- ## Gmail API and Nodemailer:
-  Integrated the Gmail API and nodemailer library to send emails for account verification, password reset, and other notification purposes.
+- ### Gmail API and Nodemailer:
+  *Integrated the Gmail API and nodemailer library to send emails for account verification, password reset, and other notification purposes.*
 
-- ## dotenv:
-  Employed dotenv to load environment variables from a .env file, facilitating secure configuration management.
+- ### dotenv:
+  *Employed dotenv to load environment variables from a .env file, facilitating secure configuration management.*
 
 
 # How does this APIs works ?, you can test it using PostMan !! 

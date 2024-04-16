@@ -56,16 +56,19 @@
     2. Upon successful authentication, the server issues a long-lived access token.
     3. This access token can be used to access protected routes and retrieve account information.
 
+## Show User Info
 
-showInfo:
-- The showInfo endpoint (/showInfo) is a protected route that requires authentication. Only users with a valid JWT can access this endpoint.
-- To access showInfo, the client includes the JWT in the request headers, typically using the Authorization header with the value Bearer token.
-- The server verifies the authenticity of the token by decoding it and validating the signature against the secret key.
-- If the token is valid, the server extracts the user's ID from the token and uses it to fetch the user's information from the database.
-- Finally, the server responds with the requested user information, allowing the client to display it to the user.
+- **Endpoint**: `/showInfo`
+- **Method**: GET
+- **Description**: Retrieves the user's information.
+    - Requires a valid JWT in the request headers for authentication.
+        1. The client includes the JWT in the request headers, typically using the Authorization header with the value Bearer token.
+        2. The server verifies the authenticity of the token by decoding it and validating the signature against the secret key.
+        3. If the token is valid, the server extracts the user's ID from the token and uses it to fetch the user's information from the database.
+        4. Finally, the server responds with the requested user information, allowing the client to display it to the user.
 
 
-## Key Features:
+# Key Features:
 
 - User Authentication: Implement a robust authentication system using JWT to securely authenticate users.
 - Proper Response Handlling

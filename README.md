@@ -12,15 +12,17 @@
 - Gmail API and nodemailer to send emails
 - dotenv
 
-## How does this APIs works ?, you can test it using PostMan !! 
+# How does this APIs works ?, you can test it using PostMan !! 
 [  // needed to update this ]
 
-Registration:
-- When a user wants to create an account, they access the registration endpoint (/register) of the API.
-- They provide their desired username, email, and password in the request body.
-- The server validates the provided data to ensure it meets the required criteria (e.g., username must be unique, email must be valid).
-- If the data passes validation, the server hashes the password securely using bcrypt and stores the user's information in the database.
-- Finally, the server generates a JWT (JSON Web Token) containing the user's ID and signs it with a secret key. This token is then sent back to the client as part of the registration response.
+## Registration
+### Endpoint: /register
+### Method: POST
+### Description: Allows users to create a new account.
+  - The user provides their desired username, email, and password in the request body.
+  - The server validates the provided data to ensure it meets the required criteria.
+  - If the data passes validation, the server sends an OTP (One-Time Password) to the user's email for verification.
+  - The user's information is securely stored in the database after successful verification.
 
 Login:
 - To log in, the user accesses the login endpoint (/login) and provides their email and password in the request body.

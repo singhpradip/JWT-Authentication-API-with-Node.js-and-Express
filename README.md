@@ -29,7 +29,7 @@
   - The user provides their OTP in the request body, along with the tempToken in the URL query parameters.
   -  The server extracts the email from the tempToken and retrieves the user associated with that email.
   -  If the user is found and the OTP provided matches the one sent during registration, the user's account is marked as verified, and they receive a JWT (JSON Web Token) for authentication.
- Note: Ensure that the tempToken obtained from the registration response is included in the URL query parameters. This tempToken contains the encoded email, which is used to identify the user during account verification. Additionally, the OTP should be provided in the request body for validation.
+    Note: Ensure that the tempToken obtained from the registration response is included in the URL query parameters. This tempToken contains the encoded email, which is used to identify the user during account verification. Additionally, the OTP should be provided in the request body for validation.
 
 Login:
 - To log in, the user accesses the login endpoint (/login) and provides their email and password in the request body.

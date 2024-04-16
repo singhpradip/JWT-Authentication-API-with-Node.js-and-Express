@@ -37,12 +37,25 @@
 
 **Note**: Ensure that the `tempToken` obtained from the registration response is included in the URL query parameters. This `tempToken` contains the encoded email, which is used to identify the user during account verification. Additionally, the OTP should be provided in the request body for validation.
 
+## Resend OTP
 
-Login:
-- To log in, the user accesses the login endpoint (/login) and provides their email and password in the request body.
-- The server validates the credentials by checking if the provided email exists in the database and if the password matches the hashed password stored for that email.
-- If the credentials are valid, the server generates a new JWT containing the user's ID and signs it with the secret key.
-- This token is sent back to the client as part of the login response.
+- **Endpoint**: `/resendOtp`
+- **Method**: POST
+- **Description**: REquest to resends the OTP if the user don't receive email with OTP for account verification or Password reset.
+    1. The user can request to resend the OTP if they didn't receive it initially.
+    2. The user must provide their email along with the `tempToken` received during registration or forget-password in the request body for authentication.
+    3. The server decodes the email from the `tempToken` and resends the OTP to the user's email.
+    4. A new `tempToken` is issued with a renewed expiry time.
+
+## Login
+
+- **Endpoint**: `/login`
+- **Method**: POST
+- **Description**: Allows users to log in to their verified accounts.
+    1. Requires the user's email and password in the request body.
+    2. Upon successful authentication, the server issues a long-lived access token.
+    3. This access token can be used to access protected routes and retrieve account information.
+
 
 showInfo:
 - The showInfo endpoint (/showInfo) is a protected route that requires authentication. Only users with a valid JWT can access this endpoint.

@@ -12,7 +12,8 @@
 - Gmail API and nodemailer to send emails
 - dotenv
 
-## How does this APIs works ?, you can test it using PostMan !! [//needed to update this]
+## How does this APIs works ?, you can test it using PostMan !! 
+[  // needed to update this ]
 Registration:
 - When a user wants to create an account, they access the registration endpoint (/register) of the API.
 - They provide their desired username, email, and password in the request body.
@@ -42,3 +43,6 @@ showInfo:
 - Error Handling: Implement error handling mechanisms to provide informative responses for various scenarios.
 
 This project aims to provide a flexible and reliable authentication solution for building secure APIs with JWT authentication. Whether you're creating a web application, mobile app backend, or any other type of server-side application, this repository serves as a solid foundation for implementing user authentication securely.
+
+
+#Frontend of this project is being developed in 'frontend' branch of this repo. usinf React.

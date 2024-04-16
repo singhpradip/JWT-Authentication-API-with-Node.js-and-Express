@@ -14,6 +14,7 @@
 
 ## How does this APIs works ?, you can test it using PostMan !! 
 [  // needed to update this ]
+
 Registration:
 - When a user wants to create an account, they access the registration endpoint (/register) of the API.
 - They provide their desired username, email, and password in the request body.

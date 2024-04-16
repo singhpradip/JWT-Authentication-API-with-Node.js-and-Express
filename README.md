@@ -20,7 +20,7 @@ This project aims to offer a robust and reliable authentication solution, ensuri
 -            Structured the project using the Model-View-Controller (MVC) design pattern, separating concerns for better organization and scalability.
 
 - **Creating and Using Middlewares**:
--             Implemented custom middlewares to handle authentication, validation, and other tasks within the Express.js application.
+             Implemented custom middlewares to handle authentication, validation, and other tasks within the Express.js application.
 
 - **Modular Architecture**: Designed the project with a modular architecture, dividing functionality into separate files and folders for better maintainability and readability.
 

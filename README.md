@@ -78,6 +78,42 @@
         - If the token is valid, the server allows access to the endpoint.
     - Requires the user's current password and the new password in the request body.
 
+## Forget Password
+
+- **Endpoint**: `/forget-password`
+- **Method**: POST
+- **Description**: Initiates the password recovery process by sending an OTP to the user's email.
+    - Requires the user's email in the request body.
+- **Response**: Sends a temporary token (`tempToken`) as a response. This token initiates the password reset session, and the user can use it to verify their identity and reset their password. The OTP sent via email is valid only for the duration of this session.
+
+## Verify Forget Password
+
+- **Endpoint**: `/forget-password/verify`
+- **Method**: POST
+- **Description**: Verifies the OTP sent during the forget password process and allows users to set a new password.
+    - Requires the OTP in the request body.
+    - During initiation the forget password process, the user have received an OTP via email and a temporary token (`tempToken`) as a response. Users now need to hit the `/forget-password/verify` endpoint with the `tempToken` in the URL and the OTP in the request body to verify their identity and proceed to set a new password.
+    - If the user did not receive the OTP, they can request a new OTP by hitting the `/resendOtp` endpoint with the `tempToken` received in the initial forget password response.
+
+# Middleware
+
+### Token Verification
+
+- **Function**: `verifyToken`
+- **Description**: Verifies the JWT provided in the request headers.
+    - If the token is valid, extracts the user ID and proceeds with the request.
+
+### Temporary Token Verification
+
+- **Function**: `verifyTempToken`
+- **Description**: Parses the email from the `tempToken` provided in the query parameters of the URL.
+    - Used for verifying account and forget password OTPs.
+
+### OTP Verification
+
+- **Function**: `otpVerify`
+- **Description**: Verifies the OTP sent along with the email.
+    - Used after `verifyTempToken` middleware to ensure the validity of the OTP.
 
 # Key Features:
 

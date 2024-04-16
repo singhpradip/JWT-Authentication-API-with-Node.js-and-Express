@@ -14,9 +14,9 @@
 
 # How does this APIs works ?, you can test it using PostMan !! 
 ## Registration
-### Endpoint: /register
-### Method: POST
-### Description: Allows users to create a new account.
+#### Endpoint: /register
+#### Method: POST
+#### Description: Allows users to create a new account.
   - The user provides their desired username, email, and password in the request body.
   - The server validates the provided data to ensure it meets the required criteria.
   - If the data passes validation, the server sends an OTP (One-Time Password) to the user's email for verification.

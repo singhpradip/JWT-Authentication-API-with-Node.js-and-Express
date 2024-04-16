@@ -16,7 +16,7 @@ This project aims to offer a robust and reliable authentication solution, ensuri
 
 ## Things I Learned and Implemented in This Project:
 
-- **MVC Framework**:
+- *MVC Framework*:
         - Structured the project using the Model-View-Controller (MVC) design pattern, separating concerns for better organization and scalability.
 
 - **Creating and Using Middlewares**:

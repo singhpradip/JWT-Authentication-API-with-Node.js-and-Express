@@ -13,8 +13,6 @@
 - dotenv
 
 # How does this APIs works ?, you can test it using PostMan !! 
-[  // needed to update this ]
-
 ## Registration
 ### Endpoint: /register
 ### Method: POST

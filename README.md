@@ -1,4 +1,17 @@
-# This repository provides a comprehensive solution for building secure authentication APIs using JSON Web Tokens (JWT) in Node.js with Express. The API allows users to sign up, verify email through OTP, resend OTP, log in, change password, forgot password and show user Info securely.
+# Secure Authentication APIs with JSON Web Tokens (JWT) in Node.js
+
+I created this project from scratch to provide a comprehensive solution for building secure authentication APIs using JSON Web Tokens (JWT) in Node.js with Express. The API allows users to perform the following actions securely:
+
+- Sign up
+- Verify email through OTP
+- Resend OTP
+- Log in
+- Change password
+- Forgot password
+- Show user info
+
+This project aims to offer a robust and reliable authentication solution, ensuring the security of user data and authentication processes.
+
 
 ## Things I learned and Implimented in this project:
 - MVC framework
@@ -18,11 +31,11 @@
 - **Endpoint**: `/register`
 - **Method**: POST
 - **Description**: Allows users to create a new account.
-    1. The user provides their desired username, email, and password in the request body.
-    2. The server validates the provided data to ensure it meets the required criteria.
-    3. If the data passes validation, the server sends an OTP (One-Time Password) to the user's email for verification.
-    4. The server also sends a verification URL containing a temporary token (`tempToken`) as a response, which the user can use to verify their account.
-    5. After receiving the OTP, the user verifies their account by hitting the verification URL along with the OTP.
+    - The user provides their desired username, email, and password in the request body.
+    - The server validates the provided data to ensure it meets the required criteria.
+    - If the data passes validation, the server sends an OTP (One-Time Password) to the user's email for verification.
+    - The server also sends a verification URL containing a temporary token (`tempToken`) as a response, which the user can use to verify their account.
+    - After receiving the OTP, the user verifies their account by hitting the verification URL along with the OTP.
   
 
 ## Verify Account
@@ -30,10 +43,9 @@
 - **Endpoint**: `/register/verify-account`
 - **Method**: POST
 - **Description**: Verifies the user's account using the OTP sent during registration.
-
-    1. The user provides their OTP in the request body, along with the tempToken in the URL query parameters.
-    2. The server extracts the email from the tempToken and retrieves the user associated with that email.
-    3. If the user is found and the OTP provided matches the one sent during registration, the user's account is marked as verified, and they receive a JWT (JSON Web Token) for authentication.
+    - The user provides their OTP in the request body, along with the tempToken in the URL query parameters.
+    - The server extracts the email from the tempToken and retrieves the user associated with that email.
+    - If the user is found and the OTP provided matches the one sent during registration, the user's account is marked as verified, and they receive a JWT (JSON Web Token) for authentication.
 
 **Note**: Ensure that the `tempToken` obtained from the registration response is included in the URL query parameters. This `tempToken` contains the encoded email, which is used to identify the user during account verification. Additionally, the OTP should be provided in the request body for validation.
 
@@ -42,19 +54,19 @@
 - **Endpoint**: `/resendOtp`
 - **Method**: POST
 - **Description**: REquest to resends the OTP if the user don't receive email with OTP for account verification or Password reset.
-    1. The user can request to resend the OTP if they didn't receive it initially.
-    2. The user must provide their email along with the `tempToken` received during registration or forget-password in the request body for authentication.
-    3. The server decodes the email from the `tempToken` and resends the OTP to the user's email.
-    4. A new `tempToken` is issued with a renewed expiry time.
+    - The user can request to resend the OTP if they didn't receive it initially.
+    - The user must provide their email along with the `tempToken` received during registration or forget-password in the request body for authentication.
+    - The server decodes the email from the `tempToken` and resends the OTP to the user's email.
+    - A new `tempToken` is issued with a renewed expiry time.
 
 ## Login
 
 - **Endpoint**: `/login`
 - **Method**: POST
 - **Description**: Allows users to log in to their verified accounts.
-    1. Requires the user's email and password in the request body.
-    2. Upon successful authentication, the server issues a long-lived access token.
-    3. This access token can be used to access protected routes and retrieve account information.
+    - Requires the user's email and password in the request body.
+    - Upon successful authentication, the server issues a long-lived access token.
+    - This access token can be used to access protected routes and retrieve account information.
 
 ## Show User Info
 
@@ -62,10 +74,10 @@
 - **Method**: GET
 - **Description**: Retrieves the user's information.
     - Requires a valid JWT in the request headers for authentication.
-        1. The client includes the JWT in the request headers, typically using the Authorization header with the value Bearer token.
-        2. The server verifies the authenticity of the token by decoding it and validating the signature against the secret key.
-        3. If the token is valid, the server extracts the user's ID from the token and uses it to fetch the user's information from the database.
-        4. Finally, the server responds with the requested user information, allowing the client to display it to the user.
+        - The client includes the JWT in the request headers, typically using the Authorization header with the value Bearer token.
+        - The server verifies the authenticity of the token by decoding it and validating the signature against the secret key.
+        -  If the token is valid, the server extracts the user's ID from the token and uses it to fetch the user's information from the database.
+        -  Finally, the server responds with the requested user information, allowing the client to display it to the user.
 
 ## Change Password
 
@@ -116,13 +128,13 @@
     - Used after `verifyTempToken` middleware to ensure the validity of the OTP.
 
 # Key Features:
-
-- User Authentication: Implement a robust authentication system using JWT to securely authenticate users.
-- Proper Response Handlling
-- Middleware Integration: Utilize middleware functions to authenticate and Validate API endpoints.
-- Error Handling: Implement error handling mechanisms to provide informative responses for various scenarios.
-
+- **User Authentication**: Implement a robust authentication system using JWT to securely authenticate users.
+- **Proper Response Handling**: Ensure proper formatting and informative responses for all API endpoints.
+- **Middleware Integration**: Utilize middleware functions to authenticate, validate, and authorize API endpoints, including token verification and OTP validation.
+- **Error Handling**: Implement error handling mechanisms to provide informative responses for various scenarios, ensuring graceful handling of errors throughout the application.
+  
 This project aims to provide a flexible and reliable authentication solution for building secure APIs with JWT authentication. Whether you're creating a web application, mobile app backend, or any other type of server-side application, this repository serves as a solid foundation for implementing user authentication securely.
+
 
 
 # Frontend of this project is being developed in 'frontend' branch of this repo. usinf React.

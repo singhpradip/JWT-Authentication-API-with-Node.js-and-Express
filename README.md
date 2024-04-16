@@ -22,7 +22,7 @@
   - If the data passes validation, the server sends an OTP (One-Time Password) to the user's email for verification.
   - The user's information is securely stored in the database after successful verification.
 
-### Verify Account
+## Verify Account
 
 - **Endpoint**: `/register/verify-account`
 - **Method**: POST

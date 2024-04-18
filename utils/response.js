@@ -16,3 +16,5 @@ module.exports = {
   errorResponse,
   sendError,
 };
+
+// TODO: Needed optimization and standard formatting in sending response data

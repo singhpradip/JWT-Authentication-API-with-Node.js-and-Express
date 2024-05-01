@@ -1,8 +1,18 @@
-PORT=7777
-MONGO_DB_URL='mongodb://localhost:27017/Auth'
-secretKey= ''
-expiresIn= '1hr'
-OTPexpiresIn= '1min'
+# Server
+PORT=3956
 
-EMAIL_USER="example@gmail.com"
-EMAIL_PASS="PR0@@3956"
+# Database
+MONGO_DB_URL='mongodb://localhost:27017/Auth'
+
+# JWT keys
+ACCESS_TOKEN_SECRET=''
+REFRESS_TOKEN_SECRET=''
+EXPIRES_IN= '24hr'
+OTP_EXPIRES_IN= '10min'
+
+# EMAIL API
+EMAIL_ID="example@gmail.com"
+CLIENT_ID = ''
+CLIENT_SECRET = ''
+REDIRECT_URL= https://developers.google.com/oauthplayground
+REFRESH_TOKEN = ''

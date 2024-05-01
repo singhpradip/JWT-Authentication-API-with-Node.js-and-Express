@@ -5,10 +5,10 @@ require("dotenv").config();
 const sendVerificationEmail = async (userEmail, otp, username) => {
   // const otp = 332434;
   const myEmail = process.env.EMAIL_USER;
-  const clientId = process.env.clientId;
-  const clientSecret = process.env.clientSecret;
-  const redirectUrl = process.env.redirectUrl;
-  const refreshToken = process.env.refreshToken;
+  const clientId = process.env.CLIENT_ID;
+  const clientSecret = process.env.CLIENT_SECRET;
+  const redirectUrl = process.env.REDIRECT_URL;
+  const refreshToken = process.env.REFRESH_TOKEN;
 
   // console.log(process.env.clientId);
 

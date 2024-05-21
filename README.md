@@ -158,4 +158,4 @@ This project aims to offer a robust and reliable authentication solution, ensuri
 This project aims to provide a flexible and reliable authentication solution for building secure APIs with JWT authentication. Whether you're creating a web application, mobile app backend, or any other type of server-side application, this repository serves as a solid foundation for implementing user authentication securely.
 
 
-# Frontend of this project is being developed in 'frontend' branch of this repo. usinf React.
+# Frontend of this project is being developed in 'frontend' branch of this repo. using React.

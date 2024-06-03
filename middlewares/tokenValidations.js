@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { secretKey } = require("../config/jwt");
-const User = require("../models/user");
-const {sendError} = require("../utils/response");
+const User = require("../models/userSchema");
+const { sendError } = require("../utils/response");
 
 const verifyToken = async (req, res, next) => {
   const tokenString = req.headers.authorization;
@@ -9,7 +9,6 @@ const verifyToken = async (req, res, next) => {
     console.log("No token received");
     return sendError(res, "Authorization token is missing", 401);
   }
-
   const token = tokenString.split(" ")[1];
   // console.log(token);
   if (!token) {
@@ -20,7 +19,7 @@ const verifyToken = async (req, res, next) => {
     const decoded = jwt.verify(token, secretKey);
     // console.log(decoded);
     const { userId, tokenVersion } = decoded;
-    console.log(tokenVersion + " \n" + userId);
+    // console.log(tokenVersion + " \n" + userId);
 
     const user = await User.findById(userId);
     if (!user) {
@@ -29,8 +28,15 @@ const verifyToken = async (req, res, next) => {
     if (user.tokenVersion !== tokenVersion) {
       return sendError(res, "Token has expired. Please reauthenticate.", 401);
     }
-    console.log("message: 'Token reauthenticated'");
-    req.userId = userId;
+    console.log("Valid Token !");
+
+    req.body = {
+      ID: user._id,
+      name: user.name,
+      email: user.email,
+      darkMode: user.darkMode,
+      profilePicture: user.profilePicture,
+    };
     next();
   } catch (error) {
     // console.log(error);
@@ -74,8 +80,8 @@ const verifyTempToken = async (req, res, next) => {
     // console.log("Token: PASS");
     next();
   } catch (error) {
-    console.log("Invalid token");
-    return sendError(res, "Session Expired, try again", 401);
+    console.log("Invalid token, ERROR:\n ", error);
+    return sendError(res, "Session Expired, try again later", 401);
   }
 };
 

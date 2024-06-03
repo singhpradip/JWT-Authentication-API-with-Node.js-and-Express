@@ -1,20 +1,27 @@
+const { sendErrorToSlack } = require("./sendErrorToSlack");
+
 // For successful responses
 const successResponse = (message, data = null) => {
   return { success: true, message, data };
 };
 
-// For error responses
-const errorResponse = (message, statusCode = 500) => {
-  return { success: false, message, statusCode };
+const sendError = (res, message, statusCode) => {
+  const err = { message, statusCode };
+
+  // console.log(message);
+
+  sendErrorToSlack(err);
+
+  return res.status(statusCode).json(errorResponse(message));
 };
 
-const sendError = (res, message, statusCode) => {
-  return res.status(statusCode).json({ message });
+// For error responses
+const errorResponse = (message) => {
+  return { success: false, message };
 };
+
 module.exports = {
   successResponse,
-  errorResponse,
   sendError,
+  errorResponse,
 };
-
-// TODO: Needed optimization and standard formatting in sending response data

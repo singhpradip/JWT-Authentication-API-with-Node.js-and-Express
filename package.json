@@ -1,7 +1,8 @@
 {
   "name": "jwt-authentication-api-with-node.js-and-express",
   "version": "1.0.0",
-  "description": "This project aims to provide a flexible and reliable authentication solution for building secure APIs with JWT authentication. Whether you're creating a web application, mobile app backend, or any other type of server-side application, this repository serves as a solid foundation for implementing user authentication securely.",
+  "description": "The API allows users to sign up, verify email through OTP, resend OTP, log in, change password, forgot password and show user Info securely. This repository provides a comprehensive solution for building secure authentication APIs using JWT, bcrypt and JOI in Node.js with Express.This project aims to provide a flexible and reliable authentication solution for building secure APIs with JWT authentication. Whether you're creating a web application, mobile app backend, or any other type of server-side application, this repository serves as a solid foundation for implementing user authentication securely.",
+
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -1,18 +1,27 @@
 # Server
+
 PORT=3956
 
 # Database
-MONGO_DB_URL='mongodb://localhost:27017/Auth'
+
+MONGO_DB_URL='mongodb://localhost:27017/MeroKharcha'
+MONGO_DB_REMOTE_URL =
 
 # JWT keys
-ACCESS_TOKEN_SECRET=''
-REFRESS_TOKEN_SECRET=''
-EXPIRES_IN= '24hr'
-OTP_EXPIRES_IN= '10min'
+
+ACCESS_TOKEN_SECRET=
+REFRESS_TOKEN_SECRET=
+EXPIRES_IN= '30day'
+OTP_EXPIRES_IN= '5min'
 
 # EMAIL API
-EMAIL_ID="example@gmail.com"
-CLIENT_ID = ''
-CLIENT_SECRET = ''
-REDIRECT_URL= https://developers.google.com/oauthplayground
-REFRESH_TOKEN = ''
+
+EMAIL_ID= #newbypass
+CLIENT_ID =
+CLIENT_SECRET =
+REDIRECT_URL=
+REFRESH_TOKEN =
+accessToken =
+
+#Slack
+WEB_HOOKS =

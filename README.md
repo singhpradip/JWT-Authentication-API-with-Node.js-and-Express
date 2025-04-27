@@ -8,7 +8,7 @@ I created this project from scratch to provide a comprehensive solution for buil
 - Log in
 - Change password
 - Forgot password
-- Show user info
+- Protect Routes
 
 This project aims to offer a robust and reliable authentication solution, ensuring the security of user data and authentication processes.
 
